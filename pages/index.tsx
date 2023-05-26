@@ -12,6 +12,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { FileUpload } from '@/components/train/FileUpload';
+import { UrlScraper } from '@/components/train/UrlScraper';
 
 export default function Home() {
   const [query, setQuery] = useState<string>('');
@@ -25,7 +27,8 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'Hi, what would you like to learn about this document?',
+        message:
+          'Hi, what would you like to learn about your documents and websites?',
         type: 'apiMessage',
       },
     ],
@@ -35,7 +38,7 @@ export default function Home() {
   const { messages, history } = messageState;
 
   const messageListRef = useRef<HTMLDivElement>(null);
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const textAreaRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     textAreaRef.current?.focus();
@@ -113,9 +116,10 @@ export default function Home() {
 
   //prevent empty submissions
   const handleEnter = (e: any) => {
-    if (e.key === 'Enter' && query) {
+    const isSending = e.key === 'Enter' && e.ctrlKey;
+    if (isSending && query) {
       handleSubmit(e);
-    } else if (e.key == 'Enter') {
+    } else if (isSending) {
       e.preventDefault();
     }
   };
@@ -124,9 +128,6 @@ export default function Home() {
     <>
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
-          <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat With Your Docs
-          </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
@@ -137,10 +138,10 @@ export default function Home() {
                     icon = (
                       <Image
                         key={index}
-                        src="/bot-image.png"
+                        src="/chatgpt.svg"
                         alt="AI"
-                        width="40"
-                        height="40"
+                        width="28"
+                        height="28"
                         className={styles.boticon}
                         priority
                       />
@@ -150,10 +151,10 @@ export default function Home() {
                     icon = (
                       <Image
                         key={index}
-                        src="/usericon.png"
+                        src="/brain.svg"
                         alt="Me"
-                        width="30"
-                        height="30"
+                        width="28"
+                        height="28"
                         className={styles.usericon}
                         priority
                       />
@@ -210,21 +211,23 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.center}>
+              <div className={styles.tool}>
+                <FileUpload namespace={'hjh-pdf-test-2'} />
+                <UrlScraper namespace={'hjh-pdf-test-2'} />
+              </div>
               <div className={styles.cloudform}>
-                <form onSubmit={handleSubmit}>
-                  <textarea
+                <div>
+                  <input
                     disabled={loading}
                     onKeyDown={handleEnter}
                     ref={textAreaRef}
                     autoFocus={false}
-                    rows={1}
+                    // rows={1}
                     maxLength={512}
                     id="userInput"
                     name="userInput"
                     placeholder={
-                      loading
-                        ? 'Waiting for response...'
-                        : 'What is this legal case about?'
+                      loading ? 'Waiting for response...' : 'Ctrl+Enter 发送'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -234,6 +237,7 @@ export default function Home() {
                     type="submit"
                     disabled={loading}
                     className={styles.generatebutton}
+                    onClick={handleSubmit}
                   >
                     {loading ? (
                       <div className={styles.loadingwheel}>
@@ -250,7 +254,7 @@ export default function Home() {
                       </svg>
                     )}
                   </button>
-                </form>
+                </div>
               </div>
             </div>
             {error && (
@@ -260,11 +264,11 @@ export default function Home() {
             )}
           </main>
         </div>
-        <footer className="m-auto p-4">
+        {/* <footer className="m-auto p-4">
           <a href="https://twitter.com/mayowaoshin">
             Powered by LangChainAI. Demo built by Mayo (Twitter: @mayowaoshin).
           </a>
-        </footer>
+        </footer> */}
       </Layout>
     </>
   );

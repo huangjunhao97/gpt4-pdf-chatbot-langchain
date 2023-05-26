@@ -3,7 +3,9 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  margin-top: 1rem;
+  box-shadow: 50px 50px 100px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
 }
 
 .header {
@@ -14,8 +16,16 @@
   text-align: center;
 }
 
+.tool {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
 .cloudform {
   position: relative;
+  /* padding-top: 1rem; */
 }
 
 .textarea {
@@ -25,7 +35,7 @@
   padding: 1rem 2rem 1rem 2rem;
   width: 75vw;
   border-radius: 0.5rem;
-  border: 1px solid #d9d9e3;
+  /* border: 1px solid #d9d9e3; */
   background: #ffffff;
   color: #000;
   outline: none;
@@ -184,7 +194,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 1rem 0;
+  padding-top: 1rem;
   flex-direction: column;
 }
 
@@ -193,7 +203,7 @@
   height: 65vh;
   background: #ffffff;
   border-radius: 0.5rem;
-  border: 1px solid #d9d9e3;
+  /* border: 1px solid #d9d9e3; */
   display: flex;
   justify-content: center;
   align-items: center;
